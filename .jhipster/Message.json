@@ -1,0 +1,21 @@
+{
+  "fields": [
+    {
+      "fieldName": "receivedAt",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "version",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [],
+  "service": "serviceImpl",
+  "dto": "mapstruct",
+  "readOnly": false,
+  "pagination": "infinite-scroll",
+  "name": "Message",
+  "changelogDate": "20211114222456"
+}
