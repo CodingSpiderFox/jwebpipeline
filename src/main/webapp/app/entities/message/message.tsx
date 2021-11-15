@@ -131,6 +131,13 @@ export const Message = (props: RouteComponentProps<{ url: string }>) => {
                   <th className="hand" onClick={sort('version')}>
                     <Translate contentKey="jwebpipelineApp.message.version">Version</Translate> <FontAwesomeIcon icon="sort" />
                   </th>
+                  <th className="hand" onClick={sort('newContent')}>
+                    <Translate contentKey="jwebpipelineApp.message.newContent">New Content</Translate> <FontAwesomeIcon icon="sort" />
+                  </th>
+                  <th>
+                    <Translate contentKey="jwebpipelineApp.message.previousMessage">Previous Message</Translate>{' '}
+                    <FontAwesomeIcon icon="sort" />
+                  </th>
                   <th />
                 </tr>
               </thead>
@@ -144,6 +151,14 @@ export const Message = (props: RouteComponentProps<{ url: string }>) => {
                     </td>
                     <td>{message.receivedAt ? <TextFormat type="date" value={message.receivedAt} format={APP_DATE_FORMAT} /> : null}</td>
                     <td>{message.version}</td>
+                    <td>{message.newContent}</td>
+                    <td>
+                      {message.previousMessage ? (
+                        <Link to={`message/${message.previousMessage.id}`}>{message.previousMessage.id}</Link>
+                      ) : (
+                        ''
+                      )}
+                    </td>
                     <td className="text-right">
                       <div className="btn-group flex-btn-group-container">
                         <Button tag={Link} to={`${match.url}/${message.id}`} color="info" size="sm" data-cy="entityDetailsButton">

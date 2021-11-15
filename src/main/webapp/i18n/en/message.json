@@ -19,7 +19,9 @@
       },
       "id": "ID",
       "receivedAt": "Received At",
-      "version": "Version"
+      "version": "Version",
+      "newContent": "New Content",
+      "previousMessage": "Previous Message"
     }
   }
 }

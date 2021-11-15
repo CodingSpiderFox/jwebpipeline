@@ -41,6 +41,16 @@ export const MessageDetail = (props: RouteComponentProps<{ id: string }>) => {
             </span>
           </dt>
           <dd>{messageEntity.version}</dd>
+          <dt>
+            <span id="newContent">
+              <Translate contentKey="jwebpipelineApp.message.newContent">New Content</Translate>
+            </span>
+          </dt>
+          <dd>{messageEntity.newContent}</dd>
+          <dt>
+            <Translate contentKey="jwebpipelineApp.message.previousMessage">Previous Message</Translate>
+          </dt>
+          <dd>{messageEntity.previousMessage ? messageEntity.previousMessage.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/message" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

@@ -1,9 +1,11 @@
 package com.mycompany.myapp.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.time.Instant;
 import javax.validation.constraints.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -25,6 +27,13 @@ public class Message implements Serializable {
     @NotNull
     @Field("version")
     private Long version;
+
+    @Field("new_content")
+    private String newContent;
+
+    @DBRef
+    @Field("previousMessage")
+    private Message previousMessage;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -67,6 +76,32 @@ public class Message implements Serializable {
         this.version = version;
     }
 
+    public String getNewContent() {
+        return this.newContent;
+    }
+
+    public Message newContent(String newContent) {
+        this.setNewContent(newContent);
+        return this;
+    }
+
+    public void setNewContent(String newContent) {
+        this.newContent = newContent;
+    }
+
+    public Message getPreviousMessage() {
+        return this.previousMessage;
+    }
+
+    public void setPreviousMessage(Message message) {
+        this.previousMessage = message;
+    }
+
+    public Message previousMessage(Message message) {
+        this.setPreviousMessage(message);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -93,6 +128,7 @@ public class Message implements Serializable {
             "id=" + getId() +
             ", receivedAt='" + getReceivedAt() + "'" +
             ", version=" + getVersion() +
+            ", newContent='" + getNewContent() + "'" +
             "}";
     }
 }

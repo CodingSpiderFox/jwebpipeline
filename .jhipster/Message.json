@@ -9,9 +9,22 @@
       "fieldName": "version",
       "fieldType": "Long",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "newContent",
+      "fieldType": "String"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipName": "previousMessage",
+      "otherEntityName": "message",
+      "relationshipType": "one-to-one",
+      "otherEntityField": "id",
+      "ownerSide": true,
+      "otherEntityRelationshipName": "message"
+    }
+  ],
   "service": "serviceImpl",
   "dto": "mapstruct",
   "readOnly": false,

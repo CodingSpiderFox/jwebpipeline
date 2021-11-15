@@ -4,6 +4,7 @@ import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { getEntities as getMessages } from 'app/entities/message/message.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './message.reducer';
 import { IMessage } from 'app/shared/model/message.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
@@ -15,6 +16,7 @@ export const MessageUpdate = (props: RouteComponentProps<{ id: string }>) => {
 
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
+  const messages = useAppSelector(state => state.message.entities);
   const messageEntity = useAppSelector(state => state.message.entity);
   const loading = useAppSelector(state => state.message.loading);
   const updating = useAppSelector(state => state.message.updating);
@@ -27,6 +29,8 @@ export const MessageUpdate = (props: RouteComponentProps<{ id: string }>) => {
     if (!isNew) {
       dispatch(getEntity(props.match.params.id));
     }
+
+    dispatch(getMessages({}));
   }, []);
 
   useEffect(() => {
@@ -41,6 +45,7 @@ export const MessageUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...messageEntity,
       ...values,
+      previousMessage: messages.find(it => it.id.toString() === values.previousMessage.toString()),
     };
 
     if (isNew) {
@@ -58,6 +63,7 @@ export const MessageUpdate = (props: RouteComponentProps<{ id: string }>) => {
       : {
           ...messageEntity,
           receivedAt: convertDateTimeFromServer(messageEntity.receivedAt),
+          previousMessage: messageEntity?.previousMessage?.id,
         };
 
   return (
@@ -107,6 +113,29 @@ export const MessageUpdate = (props: RouteComponentProps<{ id: string }>) => {
                   validate: v => isNumber(v) || translate('entity.validation.number'),
                 }}
               />
+              <ValidatedField
+                label={translate('jwebpipelineApp.message.newContent')}
+                id="message-newContent"
+                name="newContent"
+                data-cy="newContent"
+                type="text"
+              />
+              <ValidatedField
+                id="message-previousMessage"
+                name="previousMessage"
+                data-cy="previousMessage"
+                label={translate('jwebpipelineApp.message.previousMessage')}
+                type="select"
+              >
+                <option value="" key="0" />
+                {messages
+                  ? messages.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.id}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/message" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

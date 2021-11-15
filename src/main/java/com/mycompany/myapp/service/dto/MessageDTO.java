@@ -18,6 +18,10 @@ public class MessageDTO implements Serializable {
     @NotNull
     private Long version;
 
+    private String newContent;
+
+    private MessageDTO previousMessage;
+
     public String getId() {
         return id;
     }
@@ -40,6 +44,22 @@ public class MessageDTO implements Serializable {
 
     public void setVersion(Long version) {
         this.version = version;
+    }
+
+    public String getNewContent() {
+        return newContent;
+    }
+
+    public void setNewContent(String newContent) {
+        this.newContent = newContent;
+    }
+
+    public MessageDTO getPreviousMessage() {
+        return previousMessage;
+    }
+
+    public void setPreviousMessage(MessageDTO previousMessage) {
+        this.previousMessage = previousMessage;
     }
 
     @Override
@@ -70,6 +90,8 @@ public class MessageDTO implements Serializable {
             "id='" + getId() + "'" +
             ", receivedAt='" + getReceivedAt() + "'" +
             ", version=" + getVersion() +
+            ", newContent='" + getNewContent() + "'" +
+            ", previousMessage=" + getPreviousMessage() +
             "}";
     }
 }

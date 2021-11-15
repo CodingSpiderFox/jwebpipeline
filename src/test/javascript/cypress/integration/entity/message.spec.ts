@@ -16,7 +16,7 @@ describe('Message e2e test', () => {
   const messagePageUrlPattern = new RegExp('/message(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'admin';
   const password = Cypress.env('E2E_PASSWORD') ?? 'admin';
-  const messageSample = { receivedAt: '2021-11-14T16:45:06.786Z', version: 25997 };
+  const messageSample = { receivedAt: '2021-11-14T12:14:47.277Z', version: 57352 };
 
   let message: any;
 
@@ -158,6 +158,8 @@ describe('Message e2e test', () => {
       cy.get(`[data-cy="receivedAt"]`).type('2021-11-14T03:39').should('have.value', '2021-11-14T03:39');
 
       cy.get(`[data-cy="version"]`).type('48955').should('have.value', '48955');
+
+      cy.get(`[data-cy="newContent"]`).type('well-modulated').should('have.value', 'well-modulated');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

@@ -36,6 +36,9 @@ class MessageResourceIT {
     private static final Long DEFAULT_VERSION = 1L;
     private static final Long UPDATED_VERSION = 2L;
 
+    private static final String DEFAULT_NEW_CONTENT = "AAAAAAAAAA";
+    private static final String UPDATED_NEW_CONTENT = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/messages";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -57,7 +60,7 @@ class MessageResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Message createEntity() {
-        Message message = new Message().receivedAt(DEFAULT_RECEIVED_AT).version(DEFAULT_VERSION);
+        Message message = new Message().receivedAt(DEFAULT_RECEIVED_AT).version(DEFAULT_VERSION).newContent(DEFAULT_NEW_CONTENT);
         return message;
     }
 
@@ -68,7 +71,7 @@ class MessageResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Message createUpdatedEntity() {
-        Message message = new Message().receivedAt(UPDATED_RECEIVED_AT).version(UPDATED_VERSION);
+        Message message = new Message().receivedAt(UPDATED_RECEIVED_AT).version(UPDATED_VERSION).newContent(UPDATED_NEW_CONTENT);
         return message;
     }
 
@@ -93,6 +96,7 @@ class MessageResourceIT {
         Message testMessage = messageList.get(messageList.size() - 1);
         assertThat(testMessage.getReceivedAt()).isEqualTo(DEFAULT_RECEIVED_AT);
         assertThat(testMessage.getVersion()).isEqualTo(DEFAULT_VERSION);
+        assertThat(testMessage.getNewContent()).isEqualTo(DEFAULT_NEW_CONTENT);
     }
 
     @Test
@@ -159,7 +163,8 @@ class MessageResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(message.getId())))
             .andExpect(jsonPath("$.[*].receivedAt").value(hasItem(DEFAULT_RECEIVED_AT.toString())))
-            .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION.intValue())));
+            .andExpect(jsonPath("$.[*].version").value(hasItem(DEFAULT_VERSION.intValue())))
+            .andExpect(jsonPath("$.[*].newContent").value(hasItem(DEFAULT_NEW_CONTENT)));
     }
 
     @Test
@@ -174,7 +179,8 @@ class MessageResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(message.getId()))
             .andExpect(jsonPath("$.receivedAt").value(DEFAULT_RECEIVED_AT.toString()))
-            .andExpect(jsonPath("$.version").value(DEFAULT_VERSION.intValue()));
+            .andExpect(jsonPath("$.version").value(DEFAULT_VERSION.intValue()))
+            .andExpect(jsonPath("$.newContent").value(DEFAULT_NEW_CONTENT));
     }
 
     @Test
@@ -192,7 +198,7 @@ class MessageResourceIT {
 
         // Update the message
         Message updatedMessage = messageRepository.findById(message.getId()).get();
-        updatedMessage.receivedAt(UPDATED_RECEIVED_AT).version(UPDATED_VERSION);
+        updatedMessage.receivedAt(UPDATED_RECEIVED_AT).version(UPDATED_VERSION).newContent(UPDATED_NEW_CONTENT);
         MessageDTO messageDTO = messageMapper.toDto(updatedMessage);
 
         restMessageMockMvc
@@ -209,6 +215,7 @@ class MessageResourceIT {
         Message testMessage = messageList.get(messageList.size() - 1);
         assertThat(testMessage.getReceivedAt()).isEqualTo(UPDATED_RECEIVED_AT);
         assertThat(testMessage.getVersion()).isEqualTo(UPDATED_VERSION);
+        assertThat(testMessage.getNewContent()).isEqualTo(UPDATED_NEW_CONTENT);
     }
 
     @Test
@@ -298,6 +305,7 @@ class MessageResourceIT {
         Message testMessage = messageList.get(messageList.size() - 1);
         assertThat(testMessage.getReceivedAt()).isEqualTo(DEFAULT_RECEIVED_AT);
         assertThat(testMessage.getVersion()).isEqualTo(DEFAULT_VERSION);
+        assertThat(testMessage.getNewContent()).isEqualTo(DEFAULT_NEW_CONTENT);
     }
 
     @Test
@@ -311,7 +319,7 @@ class MessageResourceIT {
         Message partialUpdatedMessage = new Message();
         partialUpdatedMessage.setId(message.getId());
 
-        partialUpdatedMessage.receivedAt(UPDATED_RECEIVED_AT).version(UPDATED_VERSION);
+        partialUpdatedMessage.receivedAt(UPDATED_RECEIVED_AT).version(UPDATED_VERSION).newContent(UPDATED_NEW_CONTENT);
 
         restMessageMockMvc
             .perform(
@@ -327,6 +335,7 @@ class MessageResourceIT {
         Message testMessage = messageList.get(messageList.size() - 1);
         assertThat(testMessage.getReceivedAt()).isEqualTo(UPDATED_RECEIVED_AT);
         assertThat(testMessage.getVersion()).isEqualTo(UPDATED_VERSION);
+        assertThat(testMessage.getNewContent()).isEqualTo(UPDATED_NEW_CONTENT);
     }
 
     @Test
